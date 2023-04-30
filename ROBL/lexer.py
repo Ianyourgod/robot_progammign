@@ -1,21 +1,4 @@
-WHITESPACE = " \t"
-CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"
-DIGITS = "0123456789"
-KEYWORDS = [
-    "if",
-    "else",
-    "elif",
-    "while",
-    "for",
-    "in",
-    "def",
-    "return",
-    "break",
-    "continue",
-    "True",
-    "False",
-    "None",
-]
+from CONSTS import *
 
 class Token:
     def __init__(self, name, value=None):
@@ -87,31 +70,35 @@ class Lexer:
             elif self.current_char == "+":
                 self.advance()
                 if self.current_char == "=":
-                    self.tokens.append(Token("ADD_EQUALS"))
+                    self.tokens.append(Token("ADD_ASSIGN"))
                     self.advance()
                 else:
                     self.tokens.append(Token("ADD"))
             elif self.current_char == "-":
                 self.advance()
                 if self.current_char == "=":
-                    self.tokens.append(Token("SUB_EQUALS"))
+                    self.tokens.append(Token("MIN_ASSIGN"))
                     self.advance()
                 else:
-                    self.tokens.append(Token("SUB"))
+                    self.tokens.append(Token("MIN"))
             elif self.current_char == "*":
                 self.advance()
                 if self.current_char == "=":
-                    self.tokens.append(Token("MUL_EQUALS"))
+                    self.tokens.append(Token("MUL_ASSIGN"))
                     self.advance()
                 elif self.current_char == "*":
-                    self.tokens.append(Token("EXP"))
                     self.advance()
+                    if self.current_char == "=":
+                        self.tokens.append(Token("EXP_ASSIGN"))
+                        self.advance()
+                    else:
+                        self.tokens.append(Token("EXP"))
                 else:
                     self.tokens.append(Token("MUL"))
             elif self.current_char == "/":
                 self.advance()
                 if self.current_char == "=":
-                    self.tokens.append(Token("DIV_EQUALS"))
+                    self.tokens.append(Token("DIV_ASSIGN"))
                     self.advance()
                 elif self.current_char == "/":
                     self.tokens.append(Token("INT_DIV"))
@@ -121,7 +108,7 @@ class Lexer:
             elif self.current_char == "%":
                 self.advance()
                 if self.current_char == "=":
-                    self.tokens.append(Token("MOD_EQUALS"))
+                    self.tokens.append(Token("MOD_ASSIGN"))
                     self.advance()
                 else:
                     self.tokens.append(Token("MOD"))

@@ -11,5 +11,7 @@ def run(text: str, debug=False):
     #from interpreter import Interpreter
     
 run("""
-{a: 1, b: 2, c: 3}
+def add(a, b) {
+    return a + b
+}
 """, True)
