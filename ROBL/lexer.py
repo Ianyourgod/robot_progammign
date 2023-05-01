@@ -101,8 +101,12 @@ class Lexer:
                     self.tokens.append(Token("DIV_ASSIGN"))
                     self.advance()
                 elif self.current_char == "/":
-                    self.tokens.append(Token("INT_DIV"))
                     self.advance()
+                    if self.current_char == "=":
+                        self.tokens.append(Token("INT_DIV_ASSIGN"))
+                        self.advance()
+                    else:
+                        self.tokens.append(Token("INT_DIV"))
                 else:
                     self.tokens.append(Token("DIV"))
             elif self.current_char == "%":

@@ -283,14 +283,27 @@ class Parser:
         return node
         
     def factor(self):
-        node = self.atom()
-        while self.current_token.name in ("MUL", "DIV"):
+        node = self.power()
+        while self.current_token.name in ("MUL", "DIV", "INT_DIV", "MOD"):
             if self.current_token.name == "MUL":
                 self.advance()
-                node = Node("MUL", node, self.atom())
+                node = Node("MUL", node, self.power())
             elif self.current_token.name == "DIV":
                 self.advance()
-                node = Node("DIV", node, self.atom())
+                node = Node("DIV", node, self.power())
+            elif self.current_token.name == "INT_DIV":
+                self.advance()
+                node = Node("INT_DIV", node, self.power())
+            elif self.current_token.name == "MOD":
+                self.advance()
+                node = Node("MOD", node, self.power())
+        return node
+    
+    def power(self):
+        node = self.atom()
+        while self.current_token.name == "EXP":
+            self.advance()
+            node = Node("EXP", node, self.factor())
         return node
         
     def atom(self):
